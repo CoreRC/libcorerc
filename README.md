@@ -2,6 +2,10 @@
 
 Client for the Rust-based server example in `capnproto-rust`.
 
+# See also
+
+My [blog](https://corerc.io/blog/2018/08/31/first-cross-language-pub-sub-on-capn-proto/).
+
 # Building
 
 ```
