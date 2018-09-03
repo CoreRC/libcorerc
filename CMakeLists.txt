@@ -20,11 +20,12 @@ set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra -Wno-sign-compare -Wno-unused-parameter -
 find_package(CapnProto REQUIRED)
 
 capnp_generate_cpp(pubsubSources pubsubHeaders schema/pubsub.capnp)
+capnp_generate_cpp(std_msgsSources std_msgsHeaders schema/Message.capnp schema/Time.capnp)
 #capnp_generate_cpp(msgSources msgHeaders test.capnp)
 
-add_executable(test_capnp src/main.cpp ${pubsubSources})
+add_executable(test_capnp src/main.cpp ${pubsubSources} ${std_msgsSources})
 
 target_link_libraries(test_capnp PRIVATE CapnProto::capnp-rpc -dead_strip)
-target_include_directories(test_capnp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(test_capnp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 
 set_property(TARGET test_capnp PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
