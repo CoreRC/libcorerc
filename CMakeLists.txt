@@ -25,7 +25,13 @@ capnp_generate_cpp(std_msgsSources std_msgsHeaders schema/Message.capnp schema/T
 
 add_executable(test_capnp src/main.cpp ${pubsubSources} ${std_msgsSources})
 
-target_link_libraries(test_capnp PRIVATE CapnProto::capnp-rpc -dead_strip)
+if(APPLE)
+    set(LINK_LTO_OPT "-dead_strip")
+else()
+    set(LINK_LTO_OPT "-flto")
+endif()
+
+target_link_libraries(test_capnp PRIVATE CapnProto::capnp-rpc ${LINK_LTO_OPT})
 target_include_directories(test_capnp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 
 set_property(TARGET test_capnp PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
